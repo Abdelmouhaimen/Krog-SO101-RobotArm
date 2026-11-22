@@ -16,7 +16,7 @@ pauses while he thinks are sped up and labelled.
 | **Talks back in real time** | Streaming speech-to-text (Deepgram Flux) → LLM (OpenAI Responses API, streaming) → text-to-speech (Deepgram Flux TTS). The first sentence plays while the rest is still being written, and you can interrupt him at any moment. |
 | **Works with an open mic and speakers** | PipeWire's WebRTC echo canceller removes everything the speakers play (his voice, game audio) from what speech recognition hears. No headphones needed. |
 | **Moves with personality** | The same LLM reply that writes his words picks a gesture from a library of recorded arm behaviors. While he speaks, the gripper animates (Talk Mode). |
-| **Follows your face** | A webcam on the gaming PC sends your face angle; the arm's base keeps pointing at you (Follow Me). |
+| **Follows your head** | The gaming PC estimates head bearing from the webcam and sends the angle for Follow Me. |
 | **Sees your screen** | The gaming PC sends a screenshot every few seconds over a private Ethernet link; Krog comments when he has something worth saying. |
 | **Keeps costs and the arm in check** | A live cost meter with a hard per-session budget, sessions that end on their own after 2 hours, and a robot controller that alone owns the hardware (see below). |
 
@@ -26,7 +26,7 @@ pauses while he thinks are sped up and labelled.
 flowchart LR
     subgraph G["Gaming PC"]
         S[Screen capture]
-        W[Webcam face tracker]
+        W[Webcam head tracker]
     end
     subgraph P["Robot PC, Ubuntu 24.04"]
         L[lan-receiver]
@@ -36,7 +36,7 @@ flowchart LR
     A[(SO-101 arm)]
     C[(Deepgram + OpenAI)]
     S -- JPEG frames, Ethernet --> L
-    W -- face angle, Ethernet --> L
+    W -- head bearing, Ethernet --> L
     V -- polls --> L
     V <-- audio and text --> C
     V -- behaviors, Talk Mode, Follow Me<br/>authenticated HTTP --> R
@@ -53,7 +53,9 @@ faults and an emergency hold.
 |---|---|---|
 | [`robot-controller/`](robot-controller/) | The SO-101 controller: Studio desktop app with a MuJoCo digital twin, safety-gated real-arm control through LeRobot, behavior recording and replay, named poses, Follow Me and Talk Mode, and an authenticated HTTP/WebSocket API. Built spec-first: specifications, 19 architecture decision records and commissioning reports from the real arm. | 479 offline |
 | [`voice-companion/`](voice-companion/) | Krog himself: the real-time voice pipeline, the character, the robot tools the LLM can call, screen observation and Follow Me through the LAN receiver, and a terminal UI with cost tracking. | 256 offline |
-| [`lan-receiver/`](lan-receiver/) | A small FastAPI service on the robot PC that receives screenshots and face angles from the gaming PC over a private Ethernet link, with a shared token. | 8 |
+| [`lan-receiver/`](lan-receiver/) | A small FastAPI service on the robot PC that receives screenshots and head bearings from the gaming PC over a private Ethernet link, with a shared token. | 8 |
+| [`01_GamingPC_ScreenSender/`](01_GamingPC_ScreenSender/) | Desktop app that previews a selected display and sends a JPEG every two seconds by default. | |
+| [`02_GamingPC_FaceTracker/`](02_GamingPC_FaceTracker/) | Desktop app that uses MediaPipe to send head bearings. It estimates the position from the visible torso when the face is hidden. | 21 offline |
 
 <p>
   <img src="docs/media/studio.png" alt="Robot controller Studio with the MuJoCo twin" width="58%">
@@ -64,9 +66,8 @@ faults and an emergency hold.
 
 - SO-101 follower arm ([LeRobot](https://github.com/huggingface/lerobot) build), calibrated.
 - An Ubuntu 24.04 PC with a microphone and speakers (the robot PC).
-- Optional, for screen and face perception: a second (gaming) PC with a webcam, linked to the robot PC by an
-  Ethernet cable. The gaming-PC sender apps are not part of this repository yet; the receiver documents
-  what it expects.
+- Optional, for screen and head tracking: a gaming PC with a webcam, linked to the robot PC by a private
+  Ethernet cable. Set up the [LAN receiver](lan-receiver/) and use its shared token in both sender apps.
 
 ## Quick start
 
@@ -104,9 +105,10 @@ $0.25 per session.
 (cd robot-controller && .venv/bin/python -m pytest)
 (cd voice-companion && .venv/bin/python -m pytest)
 (cd lan-receiver && .venv/bin/python -m pytest)
+(cd 02_GamingPC_FaceTracker && .venv/bin/python -m pytest)
 ```
 
-All three suites run offline, with fake providers and a fake arm.
+The suites run offline. Robot and voice tests use fake hardware and providers.
 
 ## How it was built
 
