@@ -24,9 +24,9 @@ pauses while he thinks are sped up and labelled.
 
 ```mermaid
 flowchart LR
-    subgraph G["Gaming PC"]
-        S[Screen capture]
-        W[Webcam head tracker]
+    subgraph G["Gaming PC, Windows or Linux"]
+        S[screen-sender<br/>monitor JPEGs]
+        W[head-tracker<br/>webcam, angles only]
     end
     subgraph P["Robot PC, Ubuntu 24.04"]
         L[lan-receiver]
@@ -49,13 +49,13 @@ faults and an emergency hold.
 
 ## Repository layout
 
-| Folder | What it is | Tests |
-|---|---|---|
-| [`robot-controller/`](robot-controller/) | The SO-101 controller: Studio desktop app with a MuJoCo digital twin, safety-gated real-arm control through LeRobot, behavior recording and replay, named poses, Follow Me and Talk Mode, and an authenticated HTTP/WebSocket API. Built spec-first: specifications, 19 architecture decision records and commissioning reports from the real arm. | 479 offline |
-| [`voice-companion/`](voice-companion/) | Krog himself: the real-time voice pipeline, the character, the robot tools the LLM can call, screen observation and Follow Me through the LAN receiver, and a terminal UI with cost tracking. | 256 offline |
-| [`lan-receiver/`](lan-receiver/) | A small FastAPI service on the robot PC that receives screenshots and head bearings from the gaming PC over a private Ethernet link, with a shared token. | 8 |
-| [`01_GamingPC_ScreenSender/`](01_GamingPC_ScreenSender/) | Desktop app that previews a selected display and sends a JPEG every two seconds by default. | |
-| [`02_GamingPC_FaceTracker/`](02_GamingPC_FaceTracker/) | Desktop app that uses MediaPipe to send head bearings. It estimates the position from the visible torso when the face is hidden. | 21 offline |
+| Folder | Runs on | What it is | Tests |
+|---|---|---|---|
+| [`robot-controller/`](robot-controller/) | Robot PC | The SO-101 controller: Studio desktop app with a MuJoCo digital twin, safety-gated real-arm control through LeRobot, behavior recording and replay, named poses, Follow Me and Talk Mode, and an authenticated HTTP/WebSocket API. Built spec-first: specifications, 19 architecture decision records and commissioning reports from the real arm. | 479 offline |
+| [`voice-companion/`](voice-companion/) | Robot PC | Krog himself: the real-time voice pipeline, the character, the robot tools the LLM can call, screen observation and Follow Me through the LAN receiver, and a terminal UI with cost tracking. | 256 offline |
+| [`lan-receiver/`](lan-receiver/) | Robot PC | A small FastAPI service that receives screenshots and head bearings from the gaming PC over a private Ethernet link, with a shared token. | 8 offline |
+| [`screen-sender/`](screen-sender/) | Gaming PC | A desktop app that previews a chosen monitor and sends it as a JPEG every two seconds by default. | none yet |
+| [`head-tracker/`](head-tracker/) | Gaming PC | A desktop app that finds your head in the webcam with MediaPipe, falling back to the visible torso when the face is hidden, and sends only the bearing angle. Webcam images never leave the gaming PC. | 21 offline |
 
 <p>
   <img src="docs/media/studio.png" alt="Robot controller Studio with the MuJoCo twin" width="58%">
@@ -91,6 +91,11 @@ cp .env.example .env                                     # add DEEPGRAM_API_KEY,
 .venv/bin/so101-voice
 ```
 
+For screen and head tracking, start [`lan-receiver/`](lan-receiver/) on the robot PC, then copy
+[`screen-sender/`](screen-sender/) and [`head-tracker/`](head-tracker/) to the gaming PC and run
+`INSTALL_WINDOWS.bat` then `START_WINDOWS.bat` in each (or `install_linux.sh` and `start_linux.sh`). All
+three use the same shared token.
+
 The API keys stay in `.env`, which git ignores. Live sessions use paid APIs; the default budget is
 $0.25 per session.
 
@@ -105,7 +110,7 @@ $0.25 per session.
 (cd robot-controller && .venv/bin/python -m pytest)
 (cd voice-companion && .venv/bin/python -m pytest)
 (cd lan-receiver && .venv/bin/python -m pytest)
-(cd 02_GamingPC_FaceTracker && .venv/bin/python -m pytest)
+(cd head-tracker && .venv/bin/python -m pytest)
 ```
 
 The suites run offline. Robot and voice tests use fake hardware and providers.

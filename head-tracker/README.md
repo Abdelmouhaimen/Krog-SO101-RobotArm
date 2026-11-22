@@ -1,12 +1,12 @@
-# 02 — Gaming PC: Webcam Head Tracker
+# Head tracker (gaming PC)
 
 Copy **this entire folder** to your gaming PC. It is independent of the screen sender.
-This desktop UI opens your webcam, tracks head center using local MediaPipe face and body landmarks, computes a horizontal bearing and sends **angle numbers only** (up to 20 Hz) to the AI PC. **Webcam images never leave the gaming PC.**
+This desktop UI opens your webcam, tracks head center using local MediaPipe face and body landmarks, computes a horizontal bearing and sends **angle numbers only** (up to 20 Hz) to the robot PC. **Webcam images never leave the gaming PC.**
 
 ## Windows setup
 
 To remember the shared token, copy `.env.example` to `.env` in this folder and set
-`BRIDGE_TOKEN="your Linux receiver token"`. Use the same token as Screen Sender
+`BRIDGE_TOKEN="your Linux receiver token"`. Use the same token as the screen sender
 and the Linux receiver. Restart the app after editing it. The masked Shared
 token field loads it automatically and remains editable. An existing
 `BRIDGE_TOKEN` environment variable takes precedence. Token values are read
@@ -17,7 +17,7 @@ plaintext file private. Without a saved token, enter it in the UI.
 2. Double-click `INSTALL_WINDOWS.bat` once.
 3. Download the required official MediaPipe face and pose models once: `.\.venv\Scripts\python.exe -m lan_bridge.download_mediapipe`. With the Conda environment, use `conda run -n so101-m3c python -m lan_bridge.download_mediapipe`. Downloads the public model only; webcam inference stays local.
 4. Double-click `START_WINDOWS.bat`.
-5. Enter the AI PC Ethernet IP (example `192.168.50.1`), port **8766**, and the same shared token as the receiver.
+5. Enter the robot PC Ethernet IP (example `192.168.50.1`), port **8766**, and the same shared token as the receiver.
 6. Select the camera index (default 0), set horizontal FOV (default **70° is just a guess**), and adjust sign inversion / yaw offset as needed.
 7. Click Start and observe webcam preview, head-center marker and bearing.
 

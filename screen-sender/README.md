@@ -1,7 +1,7 @@
-# 01 — Gaming PC: Screen Sender
+# Screen sender (gaming PC)
 
 Copy **this entire folder** to your gaming PC. It runs independently of the head tracker.
-It provides a desktop UI to select a monitor, preview the captured content, and send a JPEG frame to the AI PC once every **2 seconds** (configurable).
+It provides a desktop UI to select a monitor, preview the captured content, and send a JPEG frame to the robot PC once every **2 seconds** (configurable).
 
 ## Windows setup
 

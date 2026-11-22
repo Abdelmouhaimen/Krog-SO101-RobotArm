@@ -1,12 +1,12 @@
 # LAN receiver (robot PC)
 
-Copy **this entire folder** to the AI/robot PC (Linux). It receives two independent streams from the gaming PC: a JPEG monitor frame every ~2s and a webcam-derived angle up to 20Hz. No robot API calls, motors, or paid providers are involved.
+Copy **this entire folder** to the robot PC (Linux). It receives two independent streams from the gaming PC: a JPEG monitor frame every ~2s and a webcam-derived angle up to 20Hz. No robot API calls, motors, or paid providers are involved.
 
 ## Physical network
 
 Use a direct Ethernet cable or an isolated LAN. Example static interface addresses:
 
-- AI/robot PC: `192.168.50.1/24`
+- Robot PC: `192.168.50.1/24`
 - Gaming PC: `192.168.50.2/24`
 
 Assign these addresses on the **Ethernet interfaces only**, and keep your usual internet/Wi-Fi default gateway intact. Check ping and allow inbound TCP **8766** only on the private Ethernet network. If your actual addresses differ, use them instead.
