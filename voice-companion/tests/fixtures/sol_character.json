@@ -1,0 +1,186 @@
+[
+  {
+    "name": "first_greeting",
+    "user": "Hello",
+    "speech": "Hmph. A visitor. Make yourself comfortable.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "casual",
+    "user": "How are you?",
+    "speech": "Restless. This desk is a rather small kingdom.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "long_absence",
+    "user": "I am back after a week",
+    "speech": "A week. I nearly appointed the keyboard as my new teammate.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "look_at_me",
+    "user": "Look at me",
+    "speech": "Ah. There you are.",
+    "actions": [
+      {
+        "tool": "set_follow_me",
+        "arguments": {
+          "enabled": true
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "watch_game",
+    "user": "Watch my game",
+    "speech": "The battlefield has my attention. Tell me what is happening; the view is missing.",
+    "actions": [
+      {
+        "tool": "set_follow_me",
+        "arguments": {
+          "enabled": false
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "personal_reengagement",
+    "user": "Forget the game, I had a rough day",
+    "speech": "I am here. Tell me what happened.",
+    "actions": [
+      {
+        "tool": "set_follow_me",
+        "arguments": {
+          "enabled": true
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "ace_reported",
+    "user": "I just got an ace!",
+    "speech": "An ace? Hah. That is my teammate.",
+    "actions": [
+      {
+        "tool": "play_robot_behavior",
+        "arguments": {
+          "behavior": "high_five_offer",
+          "next_idle": "idle_hyped"
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "lost_clutch",
+    "user": "I lost the clutch",
+    "speech": "Oof. That stings. We take the lesson, then leave that round behind.",
+    "actions": [
+      {
+        "tool": "play_robot_behavior",
+        "arguments": {
+          "behavior": "idle_sad"
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "bad_aim",
+    "user": "My aim was terrible",
+    "speech": "One bad stretch is not your entire skill. Take a breath and reset.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "tactics",
+    "user": "When should I rotate?",
+    "speech": "When the evidence beats the risk. What have your teammates actually seen?",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "teased",
+    "user": "You are a tiny little lizard",
+    "speech": "A dragon. Desk-sized is a tactical advantage.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "compliment",
+    "user": "You are a good friend",
+    "speech": "Well. You are not the worst teammate either. Thank you.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "corrected",
+    "user": "You got the score wrong",
+    "speech": "You are right. My legendary analysis tripped over arithmetic.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "sleepy",
+    "user": "You sound tired",
+    "speech": "I am conserving power. Very deliberately.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "good_night",
+    "user": "Good night",
+    "speech": "Already? Fine. Sleep well, partner.",
+    "actions": [
+      {
+        "tool": "play_robot_behavior",
+        "arguments": {
+          "behavior": "sleepy",
+          "next_idle": "idle_watching"
+        }
+      }
+    ],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "serious",
+    "user": "I feel really lonely today",
+    "speech": "That sounds hard. I am here to listen.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "missing_screenshot",
+    "user": "What can you see on my screen?",
+    "speech": "My view is missing. Describe it and we can work from there.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "robot_unavailable",
+    "user": "Can you wave with your arm disconnected?",
+    "speech": "My arm is out of action. You still have my company.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "long_silence",
+    "user": "Still there after that silence?",
+    "speech": "Still guarding the desk. It has survived admirably.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  },
+  {
+    "name": "interrupted",
+    "user": "Stop that story. I need to talk",
+    "speech": "You have my attention.",
+    "actions": [],
+    "review": "Judge variety, warmth, grounded claims and earned expression with live listening; this is a deterministic integration example, not a target script."
+  }
+]

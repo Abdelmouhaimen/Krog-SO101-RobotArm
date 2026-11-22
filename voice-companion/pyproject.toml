@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "so101-voice"
+version = "0.1.0"
+description = "SO-101 AI voice companion: Deepgram Flux STT + OpenAI Responses LLM + Deepgram Flux Cliff TTS, speech-synchronized Talk Mode"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "websockets>=15,<17",      # Deepgram Flux STT and Aura-2 TTS WebSockets (asyncio client)
+    "httpx>=0.27,<1",          # OpenAI Responses API (SSE streaming) + SO-101 HTTP API client
+    "pydantic>=2.7,<3",        # config + tool argument schemas
+    "miniaudio>=1.61,<2",      # mic/speaker I/O; bundles its engine (PulseAudio/PipeWire/ALSA), no PortAudio needed
+    "textual>=0.80",           # compact terminal UI
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+so101-voice = "so101_voice.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/so101_voice"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "live: PAID provider calls (Deepgram + OpenAI); never runs by default, needs explicit -m live",
+    "robot_fake: starts the SO-101 repo headless with a FAKE arm (needs SO101_REPO)",
+]
+addopts = "-m 'not live and not robot_fake'"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "ASYNC"]
+# Test helpers and the console-mode loop poll on purpose (simple, bounded).
+ignore = ["ASYNC109", "ASYNC110"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/so101_voice"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["miniaudio"]
+ignore_missing_imports = true

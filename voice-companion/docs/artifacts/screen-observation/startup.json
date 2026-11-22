@@ -1,0 +1,11 @@
+{
+  "phase": "IDLE",
+  "screen_mode": "OFF",
+  "arm": "Arm connected \u2014 LeRobot SOFollower, HOLDING",
+  "screen_feed": "Gaming screen available \u2014 last observation 0.2s ago",
+  "face_angle": "Webcam face angle unavailable; waiting for gaming PC \u2014 last observation 0.1s ago",
+  "receiver_connected": true,
+  "fresh_jpeg_available": true,
+  "model_requests": 0,
+  "physical_commands": 0
+}

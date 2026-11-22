@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+# Upstream model assets are fetched at a pinned SHA by scripts/fetch_model_assets.py
+vendor/
+# Local smoke-run outputs (screenshots, metrics); selected evidence is copied to docs/evidence/
+artifacts/
+# Operator-run hardware commissioning outputs (may contain local paths before redaction review)
+commissioning-reports/
+# Machine-specific settings (port, calibration path, measured display mapping)
+config/local.toml
+# Recorded physical rest poses (per calibration id)
+config/rest_pose.*.json
+# Operator behavior library (M2, owner decision D6): local recordings, never versioned
+/behaviors/
+# Named pose library (ADR-017): local poses, never versioned
+/poses/
+# Follow Me front reference per calibration (M2.6)
+config/follow_front.json

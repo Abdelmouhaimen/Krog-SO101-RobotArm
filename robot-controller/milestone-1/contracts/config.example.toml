@@ -1,0 +1,31 @@
+# SPECIFICATION EXAMPLE ONLY — this is not an executable app configuration yet.
+[app]
+mode_on_start = "SIM_ONLY"
+ui = "single_window"
+command_hz = 20
+render_target_fps = 30
+hardware_autoconnect = false
+hardware_autoenable = false
+
+[safety]
+max_step_per_tick_arm_deg = 10.0
+max_step_per_tick_gripper_units = 10.0
+angular_margin_deg = 5.0
+# Native LeRobot config; no homegrown measured-target clip.
+max_relative_target_arm_deg = 20.0
+max_relative_target_gripper_units = 100.0
+# No ground protection, no IK, no rest pose before physical hardware.
+
+[hardware]
+port = ""           # MUST be explicitly selected later
+robot_id = ""       # Must match existing LeRobot calibration identity
+calibration_path = ""  # Existing file; no auto calibration
+confirm_connect = true
+confirm_torque_off = true
+
+[simulation]
+# Resolve/pin this official asset during P0; keep original MJCF unchanged.
+model_path = "vendor/SO-ARM100/Simulation/SO101/scene.xml"
+pose_only_visualization = true
+# Provisional; visually verify official XML gripper endpoint direction
+logical_gripper_0_maps_to = "model_min"

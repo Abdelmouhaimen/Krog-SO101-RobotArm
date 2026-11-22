@@ -1,0 +1,13 @@
+# New-conversation handoff — all decisions in one page
+
+**Tell a coding agent:** We are building a Valorant companion using one SO-101 follower arm. Final product will watch a game, talk and express gestures. **DO ONLY M1** now: develop a clean Ubuntu 24.04 Python app with single integrated PySide6/MuJoCo window, six live sliders and telemetry, three modes (`SIM_ONLY`, `REAL_TO_SIM`, `SIM_TO_REAL`), with official SO-101 MuJoCo model unchanged and no VR/IK/ground protection. Physical hardware is **not available at this moment**, so write code/tests/scripts but do not attempt physical connection or claim hardware success.
+
+**Safety:** Use LeRobot `SOFollower`, existing calibration required for real mode, native `max_relative_target`: `{five arm motors:20.0,gripper:100.0}` default adjustable, existing VR source's 10-unit per emitted tick software step cap, 5° angular margin on verified joint ranges, 0–100 gripper. No gripper-specific homegrown measured-target clipping; LeRobot gripper motor protections inherited. Must explicitly confirm `connect` because it may change torque, separately enable movement, and latch fault on comm loss with no auto-recovery. Provide best-effort Emergency Hold and confirmed Torque Off. **No return-to-rest feature until user has physical arm and records real measured rest pose.**
+
+**Single-window:** user rejected separate MuJoCo viewer; prove embedded rendering as P0. Show requested, staged, actually sent, actual measured and displayed values distinctly; never fabricate feedback. Sim visual accuracy first; physical alignment judged visually later (no automatic wizard). Do not invent servo physics.
+
+**Agents:** Claude Code or Codex may implement; spec is agent-neutral. Follow `AGENTS.md`, `milestone-1/spec.md`, `implementation-plan.md`, `tasks.md`, `tests/acceptance-matrix.md`. Complete offline Gate A; later human-run Gate B. M2: user will teach/record gestures manually; `milestone-2/INTERVIEW.md` contains questions but no decisions. M3: agent observes Valorant, uses behavior tool calls/MCP and speech; see `milestone-3/INTERVIEW.md`; not implemented.
+
+**Known blockers:** exact dependency/source commit pins must be resolved, one-window GL rendering must be proven on Ubuntu, gripper visual direction uncertain, physical calibration/USB/rest pose and real position alignment cannot be tested until hardware. Open `research/RISKS_AND_UNKNOWNS.md` for detail.
+
+**First coding instruction:** Implement P0 only (environment lock, official model load and integrated renderer) with tests. Do not access physical hardware. Record results and source SHAs in `IMPLEMENTATION_STATUS.md` / `SOURCE_LOCK.md`.

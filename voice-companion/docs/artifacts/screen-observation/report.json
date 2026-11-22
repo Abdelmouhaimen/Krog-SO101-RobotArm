@@ -1,0 +1,20 @@
+{
+  "source": "offline fake providers / fake receiver / fake arm / fake audio",
+  "startup": "Screen: OFF",
+  "readiness": "Arm: Connected | Screen feed: Available | Face angle: Unavailable\nFollow: SEARCHING",
+  "initial_toggle_no_requests": true,
+  "interval_test_s": 0.08,
+  "production_interval_s": 3,
+  "image_counts_background_then_OFF_then_ON": [
+    1,
+    0,
+    1
+  ],
+  "silent_observation_no_tts_or_talk": true,
+  "follow_unchanged_by_toggle": true,
+  "background_requests": 1,
+  "total_model_requests": 3,
+  "no_image_history": true,
+  "paid_requests": 0,
+  "physical_robot_movements": 0
+}

@@ -1,0 +1,138 @@
+# so101-voice defaults. Override in config/local.toml (git-ignored) or with --config FILE.
+# Secrets (DEEPGRAM_API_KEY, OPENAI_API_KEY, SO101_API_TOKEN) never go here: use .env or the environment.
+# Pipeline: microphone → Deepgram Flux (STT) → OpenAI Responses (LLM) → Deepgram Flux TTS (TTS) → speaker.
+
+log_file = "logs/so101-voice.log"
+
+[stt]                          # Deepgram Flux streaming speech recognition
+provider = "deepgram"
+url = "wss://api.deepgram.com/v2/listen"
+model = "flux-general-en"
+sample_rate = 16000            # linear16 mono
+send_chunk_ms = 80             # Deepgram strongly recommends 80 ms chunks
+# eot_threshold = 0.7          # end-of-turn confidence (server default 0.7)
+# eot_timeout_ms = 5000        # force EndOfTurn after this much silence (server default 5000)
+keyterms = []                  # e.g. ["SO-101"]; keyterm prompting is a PAID add-on (+$0.0013/min)
+
+[llm]                          # OpenAI Responses API, streaming
+provider = "openai"
+model = "gpt-6-luna"           # never substituted silently: check with `so101-voice --check-model`
+reasoning_effort = "none"      # lowest latency; the model's default would be "medium"
+verbosity = "low"
+stream = true
+max_output_tokens = 400        # bounds response length and cost
+history_max_items = 40
+greeting = "Hmph. There you are. I was getting bored."
+# prompt = """..."""           # intentional persona override; source is logged at startup
+
+[tts]                          # Deepgram Flux TTS streaming text-to-speech
+provider = "deepgram"
+url = "wss://api.deepgram.com/v2/speak"
+model = "flux-cliff-en"      # mature, deep, calm, raspy male voice
+sample_rate = 24000            # linear16 mono, raw
+expressivity = 0              # supported connection-level default; -2..2 (beta)
+max_connection_s = 3300        # renew between replies before the one-hour provider limit
+
+[input]                        # what microphone audio is sent to (and billed by) the STT service
+mode = "continuous"            # continuous | push_to_talk (space toggles) | vad (experimental)
+preroll_ms = 300
+postroll_ms = 800
+vad_threshold_dbfs = -42.0
+idle_close_s = 4.0             # gated modes: close the STT stream after this much idle time
+
+[audio]
+# aec         — full duplex: open microphone + room speakers, PipeWire WebRTC echo cancellation (default)
+# raw         — the microphone as is (diagnostics; the assistant can hear and answer itself)
+# half_duplex — fallback: user turns are ignored while the assistant's audio plays
+mode = "aec"
+input_device = "default"       # raw / half_duplex only: index or name substring (so101-voice --list-devices)
+output_device = "default"
+prebuffer_ms = 40
+input_period_ms = 40           # device buffers; 20 ms broke this laptop's sound driver (see config.py)
+output_period_ms = 40
+# output_latency_ms = 120       # speaker latency for Talk Mode; measure with scripts/aec_check.py
+
+[audio.aec]                    # runs only while the app runs; system default devices are never changed
+topology = "monitor"           # monitor: cancels EVERYTHING on the speakers (assistant + game + system)
+                               # sink: cancels only the assistant (game audio would reach speech recognition)
+# mic = "Digital Microphone"   # PipeWire node name or description substring (default: system default mic)
+# speaker = "Speaker"          # same for the speaker (default: system default sink)
+noise_suppression = true
+gain_control = false           # measured: AGC lifts residual echo unpredictably (see docs §7)
+high_pass_filter = true
+on_failure = "error"           # error | raw | half_duplex — never a silent downgrade
+
+[robot]
+enabled = true
+base_url = "http://127.0.0.1:8765"
+talk_intensity = "normal"      # gentle | normal | excited
+lease_s = 2.0                  # robot stops Talk Mode by itself if not renewed (crash safety)
+renew_interval_s = 0.8
+stop_grace_s = 0.25
+
+[character]                    # who the companion is and how it animates the SO-101 (M3B)
+name = "Krog"
+default_idle = "idle_watching"
+calm_idles = ["idle_watching", "idle_curious"]   # after speaking: a little variety
+listening_idle = "idle_listening"                # while you talk
+talking_idle = "idle_talking"                    # while it talks (unless a reaction is playing)
+session_start_reaction = "wake_up"               # then default_idle
+reactive_gestures = true       # the LLM may choose gestures (play_robot_behavior ...)
+automatic_idles = true         # listening / talking / calm idles follow the conversation
+mood_ttl_s = 120               # an idle the LLM chose (e.g. idle_hyped) stays the calm idle this long
+min_switch_interval_s = 3.0    # no automatic idle change more often than this
+rest_on_stop = true            # idles loop forever: Go Rest when the session ends
+
+[robot_tools]                  # set enabled = false for voice only (Talk Mode still works)
+enabled = true
+allow_physical = true          # REAL arm behaviors allowed (owner's choice); --no-physical-robot to refuse
+library_refresh_s = 60         # also: TUI key R, or the LLM's list_robot_behaviors(refresh=true)
+
+[session]                      # every session stops by itself, so a forgotten one never keeps billing
+max_minutes = 120              # 2 hours; the countdown is shown right of Quit
+extend_minutes = 120           # the +2h button / E key adds this much
+warn_minutes = 5               # warning before the automatic stop
+
+[cost]                         # local ESTIMATES from list prices, not provider invoices
+enabled = true
+max_session_estimated_usd = 0.25
+warn_at_fraction = 0.80
+ledger_file = "logs/cost-ledger.jsonl"
+
+[cost.prices]                  # pay-as-you-go list prices; re-verify when changing models
+verified_on = "2026-11-11"
+stt_model = "flux-general-en"
+stt_usd_per_min = 0.0077
+stt_keyterm_usd_per_min = 0.0013
+stt_source = "https://deepgram.com/pricing"
+llm_model = "gpt-6-luna"
+llm_input_usd_per_mtok = 0.10
+llm_cached_input_usd_per_mtok = 0.01
+llm_cache_write_usd_per_mtok = 0.125
+llm_output_usd_per_mtok = 0.50
+llm_source = "https://developers.openai.com/api/docs/pricing"
+tts_model = "flux-cliff-en"   # Flux TTS pay-as-you-go
+tts_usd_per_1k_chars = 0.045
+tts_source = "https://deepgram.com/pricing"
+
+# M3C: webcam bearings + monitor JPEGs over the private Ethernet receiver.
+# Enable in ignored config/local.toml; BRIDGE_TOKEN belongs in .env/environment.
+[perception]
+enabled = false
+receiver_url = "http://192.168.50.1:8766"
+timeout_s = 0.3
+
+[follow]
+enabled = true
+target_rate_hz = 20
+calibration_valid = false
+allow_physical = false
+acquire_s = 0.2
+
+# AI image consumption, independent of the sender and Follow Me. Toggle with V in the UI.
+[screen]
+enabled = false
+interval_s = 3.0               # background observation only while session is idle
+detail = "low"                # low | auto | high; high helps small HUD text but costs more
+max_age_s = 5.0
+estimated_image_tokens = 2000 # fallback estimate for aborted/unreported requests, not a provider guarantee

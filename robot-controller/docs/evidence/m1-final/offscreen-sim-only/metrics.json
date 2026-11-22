@@ -1,0 +1,49 @@
+{
+  "version": "0.0.1",
+  "timestamp_utc": "2026-11-06T11:36:05+00:00",
+  "duration_s": 5.0,
+  "checks": {
+    "render_ok": true,
+    "fps_at_least_15": true,
+    "exactly_one_visible_top_level_window": true,
+    "six_sliders": true,
+    "slider_motion_changes_rendered_frame": true,
+    "controller_ticking": true,
+    "still_sim_only_disconnected": true,
+    "no_device_access": true
+  },
+  "passed": true,
+  "render": {
+    "fps": 30.57,
+    "render_ms_p50": 18.19,
+    "render_ms_p95": 20.34,
+    "frames_total": 149.0
+  },
+  "controller": {
+    "tick_hz_actual": 20.01,
+    "overruns": 0
+  },
+  "render_error": null,
+  "renderer": {
+    "mujoco_gl": "egl",
+    "mujoco_version": "3.17.0",
+    "render_size": "640x480",
+    "gl_vendor": "Intel",
+    "gl_renderer": "Mesa Intel(R) Graphics (ARL)",
+    "gl_version": "4.6 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.2"
+  },
+  "visible_top_level_windows": [
+    "SO-101 Companion \u2014 M1"
+  ],
+  "max_visible_top_level_windows": 1,
+  "device_guard_violations": [],
+  "environment": {
+    "qt_platform": "offscreen",
+    "xdg_session_type": "wayland",
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39",
+    "mujoco_gl": "egl",
+    "numpy": "2.5.4"
+  },
+  "scene": "vendor/SO-ARM100/Simulation/SO101/scene.xml"
+}

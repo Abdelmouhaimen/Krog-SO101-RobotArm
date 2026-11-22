@@ -1,0 +1,28 @@
+# Each project folder also has its own .gitignore with project-specific rules.
+
+# Secrets: API keys and tokens live only in local .env files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local runs
+logs/
+
+# Editors and OS
+.vscode/
+.idea/
+.cursor/
+.DS_Store

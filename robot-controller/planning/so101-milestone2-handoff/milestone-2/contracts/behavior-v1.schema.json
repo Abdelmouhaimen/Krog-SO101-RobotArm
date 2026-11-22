@@ -1,0 +1,323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/so101/milestone-2/behavior-v1.schema.json",
+  "title": "SO-101 Behavior Asset v1 (structural validation; requires semantic validation)",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "name",
+    "description",
+    "created_at_utc",
+    "updated_at_utc",
+    "revision",
+    "origin",
+    "robot_model",
+    "joint_units",
+    "samples"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "origin": {
+      "enum": [
+        "real_hand_guided",
+        "sim_sliders",
+        "sim_keyframes"
+      ]
+    },
+    "robot_model": {
+      "const": "SO-101"
+    },
+    "calibration_fingerprint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "joint_units": {
+      "type": "object",
+      "required": [
+        "shoulder_pan",
+        "shoulder_lift",
+        "elbow_flex",
+        "wrist_flex",
+        "wrist_roll",
+        "gripper"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "shoulder_pan": {
+          "const": "deg"
+        },
+        "shoulder_lift": {
+          "const": "deg"
+        },
+        "elbow_flex": {
+          "const": "deg"
+        },
+        "wrist_flex": {
+          "const": "deg"
+        },
+        "wrist_roll": {
+          "const": "deg"
+        },
+        "gripper": {
+          "const": "normalized_0_100"
+        }
+      }
+    },
+    "samples": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "t_seconds"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "t_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "actual": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "shoulder_pan",
+                  "shoulder_lift",
+                  "elbow_flex",
+                  "wrist_flex",
+                  "wrist_roll",
+                  "gripper"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shoulder_pan": {
+                    "type": "number"
+                  },
+                  "shoulder_lift": {
+                    "type": "number"
+                  },
+                  "elbow_flex": {
+                    "type": "number"
+                  },
+                  "wrist_flex": {
+                    "type": "number"
+                  },
+                  "wrist_roll": {
+                    "type": "number"
+                  },
+                  "gripper": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requested": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "shoulder_pan",
+                  "shoulder_lift",
+                  "elbow_flex",
+                  "wrist_flex",
+                  "wrist_roll",
+                  "gripper"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shoulder_pan": {
+                    "type": "number"
+                  },
+                  "shoulder_lift": {
+                    "type": "number"
+                  },
+                  "elbow_flex": {
+                    "type": "number"
+                  },
+                  "wrist_flex": {
+                    "type": "number"
+                  },
+                  "wrist_roll": {
+                    "type": "number"
+                  },
+                  "gripper": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sent": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "shoulder_pan",
+                  "shoulder_lift",
+                  "elbow_flex",
+                  "wrist_flex",
+                  "wrist_roll",
+                  "gripper"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shoulder_pan": {
+                    "type": "number"
+                  },
+                  "shoulder_lift": {
+                    "type": "number"
+                  },
+                  "elbow_flex": {
+                    "type": "number"
+                  },
+                  "wrist_flex": {
+                    "type": "number"
+                  },
+                  "wrist_roll": {
+                    "type": "number"
+                  },
+                  "gripper": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "anyOf": [
+          {
+            "properties": {
+              "actual": {
+                "type": "object",
+                "required": [
+                  "shoulder_pan",
+                  "shoulder_lift",
+                  "elbow_flex",
+                  "wrist_flex",
+                  "wrist_roll",
+                  "gripper"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shoulder_pan": {
+                    "type": "number"
+                  },
+                  "shoulder_lift": {
+                    "type": "number"
+                  },
+                  "elbow_flex": {
+                    "type": "number"
+                  },
+                  "wrist_flex": {
+                    "type": "number"
+                  },
+                  "wrist_roll": {
+                    "type": "number"
+                  },
+                  "gripper": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              }
+            },
+            "required": [
+              "actual"
+            ]
+          },
+          {
+            "properties": {
+              "requested": {
+                "type": "object",
+                "required": [
+                  "shoulder_pan",
+                  "shoulder_lift",
+                  "elbow_flex",
+                  "wrist_flex",
+                  "wrist_roll",
+                  "gripper"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shoulder_pan": {
+                    "type": "number"
+                  },
+                  "shoulder_lift": {
+                    "type": "number"
+                  },
+                  "elbow_flex": {
+                    "type": "number"
+                  },
+                  "wrist_flex": {
+                    "type": "number"
+                  },
+                  "wrist_roll": {
+                    "type": "number"
+                  },
+                  "gripper": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              }
+            },
+            "required": [
+              "requested"
+            ]
+          }
+        ]
+      }
+    },
+    "edits": {
+      "type": "array"
+    }
+  }
+}

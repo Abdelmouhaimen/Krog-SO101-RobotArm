@@ -1,0 +1,41 @@
+# SO-101 companion — M1 default configuration (equals the built-in defaults).
+# Pass another file with:  python -m so101_companion --config my.toml
+# The app ALWAYS starts in SIM_ONLY; there is no auto-connect or auto-enable option.
+
+[app]
+command_hz = 20              # nominal controller rate; achieved rate is displayed, not guaranteed
+render_target_fps = 30
+observe_every_n_ticks = 1    # actual-position read per issued tick in hardware modes
+stale_after_s = 0.5          # actual data older than this is shown as STALE
+event_ring_size = 20000
+
+# There is NO [safety] section: the M1 control/safety policy is fixed and not configurable
+# (calibrated bounds −5° margin, sent directly via LeRobot, max_relative_target=None) — see
+# src/so101_companion/safety/policy.py and decisions/ADR-010. A [safety] section is rejected.
+
+[hardware]
+port = ""               # e.g. /dev/serial/by-id/usb-...  — chosen by the operator, never auto-detected
+calibration_path = ""   # EXISTING LeRobot calibration file, e.g.
+                        # ~/.cache/huggingface/lerobot/calibration/robots/so_follower/<id>.json
+allowed_lerobot_versions = ["0.4.4"]  # versions whose API was source-verified (ADR-006)
+
+[simulation]
+model_path = ""                         # empty = pinned official model in vendor/SO-ARM100
+logical_gripper_0_maps_to = "model_min" # PROVISIONAL: 0 = closed = model's closed end; verify on hardware
+joint_sign = { shoulder_pan = 1.0, shoulder_lift = 1.0, elbow_flex = 1.0, wrist_flex = 1.0, wrist_roll = 1.0 }
+joint_offset_deg = { shoulder_pan = 0.0, shoulder_lift = 0.0, elbow_flex = 0.0, wrist_flex = 0.0, wrist_roll = 0.0 }
+full_turn_joints = ["wrist_roll"]      # LeRobot calibrates wrist_roll over a full turn: display wraps ±360°
+
+[api]
+# Milestone 2.5 HTTP API (ADR-018). Off by default; start with --api or set enabled = true.
+enabled = false
+host = "127.0.0.1"             # loopback only; another host is refused unless allow_remote = true
+port = 8765
+allow_remote = false
+allow_physical_control = false # true: authenticated API requests may move the REAL arm when ready
+token_file = ""                # "" = ~/.config/so101-companion/api-tokens.json (never in the repo)
+ack_timeout_s = 0.25           # POST waits at most this long for the controller's verdict (not the motion)
+stream_max_fps = 5.0           # MJPEG cap (5 is the hard maximum)
+frame_width = 640
+frame_height = 480
+jpeg_quality = 80

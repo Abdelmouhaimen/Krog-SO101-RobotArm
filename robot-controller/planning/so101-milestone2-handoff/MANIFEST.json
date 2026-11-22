@@ -1,0 +1,76 @@
+{
+  "artifact": "SO-101 Companion M2 Spec-Driven Handoff",
+  "type": "documentation_only",
+  "milestone": 2,
+  "status": "requirements_approved_not_implemented",
+  "files": {
+    "CLAUDE_CODE_HANDOFF.md": {
+      "sha256": "b778a75a15e9505a544b8bc239bc7c0f7af4890e514e89ebae76f9a7fe54d29f",
+      "bytes": 2047
+    },
+    "DECISIONS.md": {
+      "sha256": "18817bfae7fcf3324606113e75c72a09d6b702421d2f06b29d5f97eae9e06050",
+      "bytes": 3133
+    },
+    "NOTES_FOR_FUTURE_M3.md": {
+      "sha256": "1907ddfd46b62566b5d044b2db82780c547f3837262b6f9576759c062fe314c1",
+      "bytes": 547
+    },
+    "README.md": {
+      "sha256": "63fd1b1ec3025d65f7cb3456d2b21be96b9c32a698bc19342a9606b9f8afe0a1",
+      "bytes": 1650
+    },
+    "SOURCE_OF_TRUTH.md": {
+      "sha256": "746e2d7ab85b0c78db42ae96b4c8ec3b9ce39bb244d6945a4315a49701f1e82a",
+      "bytes": 2052
+    },
+    "milestone-2/architecture.md": {
+      "sha256": "31fa1f5ac552074171f3836ae96924a048ef6217ea592022194f9365dcba3053",
+      "bytes": 3384
+    },
+    "milestone-2/contracts/behavior-format.md": {
+      "sha256": "c3db68e1194cd799266c4f8cf49cf9e3aeb89841bec776cf3fa7d9c5a6eed516",
+      "bytes": 3972
+    },
+    "milestone-2/contracts/behavior-v1.schema.json": {
+      "sha256": "e49a9b5ec4384ba11d48dc29d187f0aedcfcdffeea156307da193e7da5334c7e",
+      "bytes": 8160
+    },
+    "milestone-2/contracts/trajectory-clock.md": {
+      "sha256": "948399e02ca013fd9c1591b3ffc0e42ab254f21cdddee43ed1f8f28c7d58ddc7",
+      "bytes": 2923
+    },
+    "milestone-2/implementation-plan.md": {
+      "sha256": "17babbb2f6a97983c365d73d087ffe6141a3bf60f89e6210f98418edf3b85571",
+      "bytes": 3362
+    },
+    "milestone-2/runbooks/HARDWARE_PLAYBACK_LATER.md": {
+      "sha256": "c6e66a22badc963e01fa13bc6701a3991795f398703b17b2c532d035301fe92d",
+      "bytes": 2547
+    },
+    "milestone-2/safety-and-faults.md": {
+      "sha256": "dd7add8d2d0094d89d0684a91145b25b3b8b19e0a121e2f328e518e6ee4ec35d",
+      "bytes": 2695
+    },
+    "milestone-2/spec.md": {
+      "sha256": "e73b21ad5cda5323c54b5324f47bbb960fe5691b1ec0d720a476477f51c347bb",
+      "bytes": 4569
+    },
+    "milestone-2/tasks.md": {
+      "sha256": "711abf79e87d8f7e7c495034bfb2e36303c0691f5a4d942582f3c8c90d706971",
+      "bytes": 2590
+    },
+    "milestone-2/tests/acceptance-matrix.md": {
+      "sha256": "0b22576d2d2a8e946846134d21330edf0652f9cd4c3455719a949eaba97345ac",
+      "bytes": 4006
+    },
+    "milestone-2/traceability.md": {
+      "sha256": "a26f7055efa2f5438e2b25e122b98a5307a154865d8f060409691dee4934127b",
+      "bytes": 681
+    },
+    "milestone-2/ui-and-states.md": {
+      "sha256": "84e5e8b8d10a62500ee367628d8e2b081c0332f529f82211b651fa54ac4c1c1c",
+      "bytes": 2953
+    }
+  }
+}

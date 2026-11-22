@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "so101-companion"
+version = "0.0.1"
+description = "SO-101 robot controller: Studio GUI, MuJoCo digital twin, safety-gated LeRobot control, behaviors, Follow Me / Talk Mode and an authenticated HTTP API"
+readme = "README.md"
+# Tested only on CPython 3.12 (Ubuntu 24.04 system Python); LeRobot 0.4.4 supports >=3.10 (ADR-006).
+requires-python = ">=3.12,<3.13"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "mujoco>=3.17,<3.18",
+    "PySide6-Essentials>=6.12,<6.13",
+    "numpy>=2.5,<2.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.2,<10",
+    "ruff>=0.17,<0.18",
+    "mypy>=2.4,<3",
+    "so101-companion[api]",  # the HTTP API tests run in the default suite
+    "httpx>=0.28,<0.29",  # FastAPI TestClient + streaming client in the API tests
+]
+# Milestone 2.5 HTTP API (ADR-018): FastAPI service, uvicorn server, Pillow for the JPEG/MJPEG video.
+api = [
+    "fastapi>=0.162,<0.163",
+    "uvicorn>=0.54,<0.55",
+    "pillow>=13,<14",
+    "websockets>=17,<18",  # ONLY the authenticated Follow Me target stream (ADR-019, owner decision D7)
+]
+# Real-arm driver. Version source-verified against SO-101-VR-Control's runtime (ADR-006).
+# Install reproducibly from requirements/hardware-linux-x86_64-py312.lock (CPU-only torch).
+hardware = [
+    "lerobot[feetech]==0.4.4",
+]
+
+[project.scripts]
+so101-companion = "so101_companion.app:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/so101_companion"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Default run: no GL context, no display, no serial, no network. Optional suites:
+#   -m render   offscreen MuJoCo GL render smoke (needs a working MUJOCO_GL backend)
+#   -m desktop  launches the real app window on the current desktop session
+#   -m hardware never used in P0; reserved for user-run physical tests
+addopts = "-ra --strict-markers -m 'not render and not desktop and not hardware'"
+markers = [
+    "gui: Qt widget tests using the offscreen QPA platform and a fake frame source (no display, no GL)",
+    "render: needs a real MuJoCo OpenGL backend (EGL by default); labeled optional smoke test",
+    "desktop: launches the real single-window app on the active desktop session; optional, manual",
+    "hardware: physical SO-101 required; never run automatically",
+]
+filterwarnings = [
+    "error::pytest.PytestUnraisableExceptionWarning",
+    # starlette's TestClient still runs on httpx (the HTTP API tests); harmless deprecation notice
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PL", "TID"]
+ignore = ["PLR2004", "PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLC0415"]
+allowed-confusables = ["–", "−", "×"]
+
+[tool.ruff.lint.per-file-ignores]
+# The device guard is deliberately process-global (audit hooks are process-global and permanent).
+"src/so101_companion/diagnostics/device_guard.py" = ["PLW0603"]
+# The ONLY place allowed to import LeRobot, lazily inside a function (ADR-006).
+"src/so101_companion/devices/lerobot_so101.py" = ["TID251"]
+# Contract tests and user-run commissioning scripts import LeRobot deliberately.
+"tests/driver_contract/*" = ["TID251"]
+"scripts/commissioning/*" = ["TID251"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"mujoco.viewer".msg = "Detached MuJoCo viewer windows violate the single-window contract (ADR-004)."
+"serial".msg = "No serial access in P0; hardware goes through the LeRobot adapter only (P4)."
+"lerobot".msg = "LeRobot is not a P0 dependency; adapter arrives in P4 after API pinning."
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+packages = ["so101_companion"]
+
+[[tool.mypy.overrides]]
+module = ["mujoco", "mujoco.*", "OpenGL", "OpenGL.*", "lerobot", "lerobot.*"]
+ignore_missing_imports = true

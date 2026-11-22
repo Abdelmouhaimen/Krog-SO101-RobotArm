@@ -1,0 +1,207 @@
+{
+  "1_normal_following": [
+    {
+      "title": "1 NORMAL behavior, target -60",
+      "target_deg": -60.0,
+      "fk_facing_deg": -60.0,
+      "pan": -60.002,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "NORMAL",
+      "suspended_reason": null,
+      "gripper": 0.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "1 NORMAL behavior, target +0",
+      "target_deg": 0.0,
+      "fk_facing_deg": -0.0,
+      "pan": -0.002,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "NORMAL",
+      "suspended_reason": null,
+      "gripper": 0.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "1 NORMAL behavior, target +45",
+      "target_deg": 45.0,
+      "fk_facing_deg": 45.0,
+      "pan": 44.998,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "NORMAL",
+      "suspended_reason": null,
+      "gripper": 0.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "1 NORMAL behavior, target +90",
+      "target_deg": 90.0,
+      "fk_facing_deg": 90.0,
+      "pan": 89.998,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "NORMAL",
+      "suspended_reason": null,
+      "gripper": 0.0,
+      "talk": "OFF"
+    }
+  ],
+  "2_reversed_following": [
+    {
+      "title": "2 REVERSED, front 105, target -20",
+      "target_deg": -20.0,
+      "fk_facing_deg": -20.0,
+      "pan": -94.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "2 REVERSED, front 105, target +0",
+      "target_deg": 0.0,
+      "fk_facing_deg": -0.0,
+      "pan": -74.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "2 REVERSED, front 105, target +60",
+      "target_deg": 60.0,
+      "fk_facing_deg": 60.0,
+      "pan": -14.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "2 REVERSED, front 105, target +150",
+      "target_deg": 150.0,
+      "fk_facing_deg": 150.0,
+      "pan": 75.003,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.0,
+      "talk": "OFF"
+    }
+  ],
+  "3_unreachable": [
+    {
+      "title": "3 REVERSED, target -90 (unreachable)",
+      "target_deg": -90.0,
+      "fk_facing_deg": -33.41,
+      "pan": -108.407,
+      "state": "AT_LIMIT",
+      "reach": "UNREACHABLE",
+      "residual_deg": -56.59,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.0,
+      "talk": "OFF"
+    }
+  ],
+  "4_ambiguous": [
+    {
+      "title": "4 MIXED behavior: pan held",
+      "target_deg": 0.0,
+      "fk_facing_deg": -0.03,
+      "pan": -74.997,
+      "state": "SUSPENDED",
+      "reach": null,
+      "residual_deg": null,
+      "reference": "MIXED",
+      "suspended_reason": "behavior 'crossing (ambiguous)' r2 is MIXED: the gripper crosses over the shoulder-pan axis (47% of the usable time on the opposite side) \u2014 no single facing reference",
+      "gripper": 3.0,
+      "talk": "OFF"
+    },
+    {
+      "title": "4 MIXED behavior: pan held",
+      "target_deg": 0.0,
+      "fk_facing_deg": -179.99,
+      "pan": -74.997,
+      "state": "SUSPENDED",
+      "reach": null,
+      "residual_deg": null,
+      "reference": "MIXED",
+      "suspended_reason": "behavior 'crossing (ambiguous)' r2 is MIXED: the gripper crosses over the shoulder-pan axis (47% of the usable time on the opposite side) \u2014 no single facing reference",
+      "gripper": 3.0,
+      "talk": "OFF"
+    }
+  ],
+  "5_follow_and_talk": [
+    {
+      "title": "5 Follow +30 & Talk (normal)",
+      "target_deg": 30.0,
+      "fk_facing_deg": 30.0,
+      "pan": -44.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 9.67,
+      "talk": "ON"
+    },
+    {
+      "title": "5 Follow +30 & Talk (normal)",
+      "target_deg": 30.0,
+      "fk_facing_deg": 30.0,
+      "pan": -44.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 3.85,
+      "talk": "ON"
+    },
+    {
+      "title": "5 Follow +30 & Talk (normal)",
+      "target_deg": 30.0,
+      "fk_facing_deg": 30.0,
+      "pan": -44.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 14.42,
+      "talk": "ON"
+    },
+    {
+      "title": "5 Follow +30 & Talk (normal)",
+      "target_deg": 30.0,
+      "fk_facing_deg": 30.0,
+      "pan": -44.997,
+      "state": "TRACKING",
+      "reach": "REACHABLE",
+      "residual_deg": 0.0,
+      "reference": "REVERSED",
+      "suspended_reason": null,
+      "gripper": 14.49,
+      "talk": "ON"
+    }
+  ]
+}
